@@ -1,0 +1,46 @@
+- hosts: all
+  user: centos
+  become: yes 
+  become_user: root
+  
+  roles:
+    - etais 
+
+  tasks:
+  - name: Testing this out
+    debug: msg=Hello user {{ansible_user_id}} on server {{ansible_hostname}}!
+
+- hosts: localhost
+  user: centos
+  become: yes
+  vars:
+    - hostname: c31348
+    - domain_name: sa.cs.ut.ee
+    - ip_address: 172.17.89.120
+    - last_ip: 120
+    - reverse_addr: 89.17.172.in-addr.arpa
+      #this has to be changed on /etc and /var if you want that something happen 
+    - etc: /etc #/home/centos/etc
+    - var: /var #/home/centos/var
+    - home: /home/centos
+    - sql_root_password: "sql2023/tropbien!"
+    - roundcube_pass: "9LTm26KHyTFwXwjZ2rkduA=="
+    - shares: /home/centos/shares
+
+  roles:
+   - { role: etais, tags: etais}
+   - { role: dns, tags: dns }
+   - { role: apache, tags: apache}
+   - { role: proxy, tags: proxy}
+   - { role: wordpress, tags: wordpress}
+   - { role: postfix, tags: postfix}
+   - { role: dovecot, tags: dovecot}
+   - { role: mailbox, tags: mailbox}
+   - { role: tls, tags: tls}
+   - { role: filesystem, tags: filesystem}
+   - { role: samba, tags: samba}
+   - { role: obj_storage, tags: obj_storage}
+   - { role: docker, tags: docker}
+   - { role: traefik, tags: traefik}
+   - { role: kubernetes, tags: kubernetes}
+   - { role: monitoring, tags: monitoring}
